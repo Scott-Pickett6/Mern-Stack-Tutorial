@@ -8,6 +8,7 @@ import Contacts from './pages/Contacts'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Signup from "./pages/Signup";
 
 function App() {
   const [count, setCount] = useState(0)
@@ -19,6 +20,7 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/products' element={<Products />} />
             <Route path='/contacts' element={<Contacts />} />
+            <Route path='/signup' element={<Signup />} />
           </Routes>
       </Router>
       <ToastContainer position='top-right' autoClose={3000}/>
