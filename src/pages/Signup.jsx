@@ -3,8 +3,13 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Card, Button } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { signUp } from '../redux/actions/authActions';
+import { useNavigate } from 'react-router-dom';
 
 export default function Signup() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const SignupSchema = Yup.object().shape({
         fullname: Yup.string().required('Full name is required'),
@@ -41,9 +46,14 @@ export default function Signup() {
                         confirmPassword: ''
                     }}
                     validationSchema={SignupSchema}
-                    onSubmit={(values, { resetForm }) => {
+                    onSubmit={async (values, {setSubmitting,  resetForm }) => {
                         console.log('Form data:', values);
-                        resetForm();
+                        const success = await dispatch(signUp(values));
+                        if (success) {
+                            resetForm();
+                            navigate('/products');
+                        }
+                        setSubmitting(false);
                     }}
                 >
                     {({ isSubmitting }) => (
@@ -79,11 +89,14 @@ export default function Signup() {
                             </div>
 
                             <Button type="submit" disabled={isSubmitting} className="w-100">
-                                Sign Up
+                                {isSubmitting ? 'Signing Up...' : 'Sign Up'}
                             </Button>
                         </Form>
                     )}
                 </Formik>
+                <div className='text-center mt-3'>
+                    <p>Already have an account? <a href="/login">Login</a></p>
+                </div>
             </Card>
         </Container>
     )

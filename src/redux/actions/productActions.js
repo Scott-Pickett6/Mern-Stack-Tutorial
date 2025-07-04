@@ -24,7 +24,14 @@ export const UPDATE_PRODUCT_FAILURE = 'UPDATE_PRODUCT_FAILURE';
 export const fetchProducts = () => async (dispatch) => {
     dispatch({ type: FETCH_PRODUCTS_REQUEST });
     try {
-        const response = await fetch('https://fakestoreapi.com/products');
+        const response = await fetch('https://fakestoreapi.com/products',
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            }
+        );
         let data = await response.json();
         data = data.map(product => ({
             ...product,
