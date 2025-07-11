@@ -28,7 +28,7 @@ export const signUp = (values) => async (dispatch) => {
         )
         const data = await res.json();
         if(!res.ok) {
-            throw new Error(data.message || "Failed to sign up");
+            throw new Error(data.message);
         }
         localStorage.setItem("token", data.token);
         toast.success("Registration successful!");
