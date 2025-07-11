@@ -9,6 +9,7 @@ export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
 export const SIGNUP_FAILURE = "SIGNUP_FAILURE";
 
 export const signUp = (values) => async (dispatch) => {
+    console.log("Signup form values:", values);
     dispatch({ type: SIGNUP_REQUEST });
     try{
         const res = await fetch("https://mern-stack-tutorial-backend.onrender.com/api/auth/register",
