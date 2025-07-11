@@ -1,33 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Home from './pages/Home'
-import Products from './pages/Products'
-import Contacts from './pages/Contacts'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { useState, Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
+import './App.css';
+import ProtectedRoute from './Components/ProtectedRoute';
+
+const Home = lazy(() => import('./pages/Home'));
+const Products = lazy(() => import('./pages/Products'));
+const Contacts = lazy(() => import('./pages/Contacts'));
+const Signup = lazy(() => import('./pages/Signup'));
+const Login = lazy(() => import('./pages/Login'));
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <>
       <Router>
+        <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/products' element={<Products />} />
+            <Route
+              path='/products'
+              element={
+                <ProtectedRoute>
+                  <Products />
+                </ProtectedRoute>
+              }
+            />
             <Route path='/contacts' element={<Contacts />} />
             <Route path='/signup' element={<Signup />} />
             <Route path='/login' element={<Login />} />
           </Routes>
+        </Suspense>
       </Router>
-      <ToastContainer position='top-right' autoClose={3000}/>
+      <ToastContainer position='top-right' autoClose={3000} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

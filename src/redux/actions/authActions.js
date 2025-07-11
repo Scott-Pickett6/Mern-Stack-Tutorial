@@ -21,7 +21,9 @@ export const signUp = (values) => async (dispatch) => {
                     name: values.name,
                     email: values.email,
                     password: values.password,
+                    role: "customer"
                 }),
+                credentials: "include",
             }
         )
         const data = await res.json();
